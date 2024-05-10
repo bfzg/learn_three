@@ -84,22 +84,47 @@ bush4.position.set(-1,0.05,2.6)
 
 house.add(bush1,bush2,bush3,bush4)
 
+//Graves
+const graves = new THREE.Group();
+scene.add(graves)
+
+const graveGemotry = new THREE.BoxBufferGeometry(0.6,0.8,0.2);
+const graveMaterial = new THREE.MeshStandardMaterial({color:"#b2b6b1"})  //网格材料
+
+for (let i = 0;i < 50; i++){
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.random() * 10;
+    const x = Math.sin(angle) * radius;
+    const z = Math.cos(angle) * radius;
+
+    const grave = new THREE.Mesh(graveGemotry,graveMaterial)
+    grave.position.set(x,0.4,z)
+    grave.rotation.y = (Math.random() - 0.5) * 0.4
+    grave.rotation.z = (Math.random() - 0.5) * 0.4
+    graves.add(grave)
+}
+
 /**
  * Lights
  */
 // Ambient light
-const ambientLight = new THREE.AmbientLight('#ffffff', 0.5)
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.12)
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
 // Directional light
-const moonLight = new THREE.DirectionalLight('#ffffff', 0.5)
+const moonLight = new THREE.DirectionalLight('#ffffff', 0.12)
 moonLight.position.set(4, 5, - 2)
 gui.add(moonLight, 'intensity').min(0).max(1).step(0.001)
 gui.add(moonLight.position, 'x').min(- 5).max(5).step(0.001)
 gui.add(moonLight.position, 'y').min(- 5).max(5).step(0.001)
 gui.add(moonLight.position, 'z').min(- 5).max(5).step(0.001)
 scene.add(moonLight)
+
+// Door light
+const doorLight = new THREE.PointLight('#ff7d46',1,7);
+doorLight.position.set(0,2.2,2.7)
+house.add(doorLight)
 
 /**
  * Sizes
